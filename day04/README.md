@@ -10,7 +10,7 @@ range of section IDs.
 However, as some Elves compare their section assignments with each other, they've noticed that many of the
 assignments overlap. To try to quickly find overlaps and reduce duplicated effort, the Elves pair up and make a **big
 list
-of the section assignments for each pair** (your puzzle input).
+of the section assignments for each pair** ([your puzzle input](../day04/input.txt)).
 
 > For example, consider the following list of section assignment pairs:
 >
