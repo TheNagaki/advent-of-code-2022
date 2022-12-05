@@ -4,27 +4,30 @@ def get_letter_priority(letter):
     return ord(letter) - 96  # Minuscule
 
 
-count = 0
-with open("../day03/input.txt", "r") as file:
-    for line in file:
-        line = line.strip()
-        length: int = len(line) // 2
-        for i in range(0, length):
-            if line[length:].__contains__(line[i]):
-                count += get_letter_priority(line[i])
-                break
-print("Part 1: " + str(count))
-
-lines = []
-count = 0
-with open("../day03/input.txt", "r") as file:
-    for line in file:
-        lines.append(line.strip())
-        if len(lines) == 3:
-            for i in range(0, len(lines[0])):
-                testedLetter = lines[0][i]
-                if lines[1].__contains__(testedLetter) & lines[2].__contains__(testedLetter):
-                    count += get_letter_priority(testedLetter)
+def part1():
+    count = 0
+    with open("../day03/input.txt", "r") as file:
+        for line in file:
+            line = line.strip()
+            length: int = len(line) // 2
+            for i in range(0, length):
+                if line[i] in line[length:]:
+                    count += get_letter_priority(line[i])
                     break
-            lines = []
-print("Part 2: " + str(count))
+    return count
+
+
+def part2():
+    lines = []
+    count = 0
+    with open("../day03/input.txt", "r") as file:
+        for line in file:
+            lines.append(line.strip())
+            if len(lines) == 3:
+                for i in range(0, len(lines[0])):
+                    tested_letter = lines[0][i]
+                    if tested_letter in lines[1] and tested_letter in lines[2]:
+                        count += get_letter_priority(tested_letter)
+                        break
+                lines = []
+    return count

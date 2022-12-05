@@ -14,21 +14,24 @@ def sort(array):
     return sorted_array
 
 
-calories_per_elf = []
-with open("input.txt", "r") as f:
-    buffer = 0
-    for line in f:
-        if line != "\n":
-            buffer += int(line)
-        else:
-            calories_per_elf.append(buffer)
-            buffer = 0
-f.close()
+def read_input():
+    calories_per_elf = []
+    with open("../day01/input.txt", "r") as f:
+        buffer = 0
+        for line in f:
+            if line != "\n":
+                buffer += int(line)
+            else:
+                calories_per_elf.append(buffer)
+                buffer = 0
+    return sort(calories_per_elf)
 
-ordered_calories = sort(calories_per_elf)
 
-maxVal1 = ordered_calories[0]
-maxVal2 = ordered_calories[1]
-maxVal3 = ordered_calories[2]
+def part1():
+    arr = read_input()
+    return arr[0]
 
-print(maxVal1 + maxVal2 + maxVal3)
+
+def part2():
+    arr = read_input()
+    return arr[0] + arr[1] + arr[2]

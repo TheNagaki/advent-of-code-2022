@@ -1,3 +1,6 @@
+eq = {"A": 1, "B": 2, "C": 3, "X": 1, "Y": 2, "Z": 3}
+
+
 def lose(move1):
     return eq[move1] - 1 if eq[move1] > 1 else 3
 
@@ -29,10 +32,19 @@ def calc_score2(move1, move2):
     return switcher.get(move2)
 
 
-eq = {"A": 1, "B": 2, "C": 3, "X": 1, "Y": 2, "Z": 3}
-with open("../day02/input.txt", "r") as f:
-    score = 0
-    for line in f:
-        score += calc_score2(line[0], line[2])
-    print(score)
-f.close()
+def part2():
+    with open("../day02/input.txt", "r") as f:
+        score = 0
+        for line in f:
+            score += calc_score2(line[0], line[2])
+    f.close()
+    return score
+
+
+def part1():
+    with open("../day02/input.txt", "r") as f:
+        score = 0
+        for line in f:
+            score += calc_score(line[0], line[2])
+    f.close()
+    return score
