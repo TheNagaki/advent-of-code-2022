@@ -18,21 +18,19 @@ def extract_elf_ranges(elf):
     return [min_, max_]
 
 
-def part1():
+def read_input(method):
     count = 0
-    with open('../day04/input.txt') as f:
+    with open('../day04/input.txt', "r") as f:
         for line in f:
             first_elf, second_elf = line.strip().split(',')
-            if fully_contains(first_elf, second_elf):
+            if method(first_elf, second_elf):
                 count += 1
     return count
+
+
+def part1():
+    return read_input(fully_contains)
 
 
 def part2():
-    count = 0
-    with open('../day04/input.txt') as f:
-        for line in f:
-            first_elf, second_elf = line.strip().split(',')
-            if overlaps(first_elf, second_elf):
-                count += 1
-    return count
+    return read_input(overlaps)

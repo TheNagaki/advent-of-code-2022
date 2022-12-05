@@ -32,19 +32,18 @@ def calc_score2(move1, move2):
     return switcher.get(move2)
 
 
-def part2():
+def read_input(method):
     with open("../day02/input.txt", "r") as f:
         score = 0
         for line in f:
-            score += calc_score2(line[0], line[2])
+            score += method(line[0], line[2])
     f.close()
     return score
+
+
+def part2():
+    return read_input(calc_score2)
 
 
 def part1():
-    with open("../day02/input.txt", "r") as f:
-        score = 0
-        for line in f:
-            score += calc_score(line[0], line[2])
-    f.close()
-    return score
+    return read_input(calc_score)
