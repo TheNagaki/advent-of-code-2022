@@ -5,6 +5,7 @@ from tkinter import *
 import requests
 
 import config
+from markdown_to_text import translate_markdown_to_text
 
 
 def import_right_solution(folder):
@@ -12,14 +13,22 @@ def import_right_solution(folder):
 
 
 def get_input():
-    day = int("".join(filter(str.isdigit, day_entered.get())))  # day from input, cleaned from non-digit characters
+    if not readme_btn.winfo_viewable():
+        readme_btn.grid(row=1, column=3)
+    day = get_day()
     fetched_input = get_web_input(day)
     file_to_write = f'../day{day:02}/input.txt'
     if write_input_to_file(fetched_input, file_to_write):
         solution = import_right_solution(f'day{day:02}')
         swap_text(f'Part 1 : {solution.part1()}\nPart 2 : {solution.part2()}')
+        readme_btn.visible = True
     else:
         swap_text('No input for this day')
+
+
+def get_day():
+    day = int("".join(filter(str.isdigit, day_entered.get())))  # day from input, cleaned from non-digit characters
+    return day
 
 
 def write_input_to_file(fetched_input, file_to_write):  # if file exists, input is not empty AND request is successful
@@ -47,6 +56,20 @@ def get_web_input(day):
     return fetched_input
 
 
+def display_readme_as_markdown():
+    day = get_day()
+    root2 = Tk()
+    root2.title('Readme for day ' + str(day))
+    root2.geometry('800x600')
+    root2.resizable(False, True)
+    with open(f'../day{day:02}/README.md', 'r') as f:
+        readme = f"""{f.read()}"""
+    f.close()
+    markdown_text = Text(root2, wrap=WORD)
+    translate_markdown_to_text(readme, markdown_text)
+    markdown_text.pack(expand=True, fill="both")
+
+
 # GUI
 root = Tk()
 root.title("Advent of Code 2022")
@@ -71,9 +94,9 @@ Label(content_frame, text="Day to test :").grid(row=0)
 day_entered = Spinbox(content_frame, from_=1, to=25, width=5)
 day_entered.grid(row=0, column=1)
 day_entered.option_add('*Font', 'TkFixedFont')
-b = Button(content_frame, text="Launch", command=get_input)
-b.grid(row=0, column=2)
-b.grid(padx=1, pady=1)
+compute_result_btn = Button(content_frame, text="Launch", command=get_input)
+compute_result_btn.grid(row=0, column=2)
+compute_result_btn.grid(padx=1, pady=1)
 
 # Output
 text = Text(content_frame, height=2, width=30)
@@ -85,5 +108,9 @@ text.tag_add("italic", 1.0, "end")
 text.option_add('*Font', 'TkFixedFont')
 text.grid(row=1, column=0, columnspan=3, sticky='nsew')
 
+readme_btn = Button(content_frame, text="?", command=display_readme_as_markdown)
+readme_btn.visible = False
+readme_btn.grid(padx=1, pady=1)
+readme_btn.grid_forget()
 # start the GUI
 mainloop()
