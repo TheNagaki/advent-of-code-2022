@@ -13,13 +13,13 @@ def import_right_solution(folder):
 
 
 def get_input():
-    if not readme_btn.winfo_viewable():
-        readme_btn.grid(row=1, column=3)
     day = get_day()
     fetched_input = get_web_input(day)
     file_to_write = f'../day{day:02}/input.txt'
     if write_input_to_file(fetched_input, file_to_write):
         solution = import_right_solution(f'day{day:02}')
+        if not readme_btn.winfo_viewable():
+            readme_btn.grid(row=1, column=3)
         swap_text(f'Part 1 : {solution.part1()}\nPart 2 : {solution.part2()}')
         readme_btn.visible = True
     else:
@@ -27,7 +27,8 @@ def get_input():
 
 
 def get_day():
-    day = int("".join(filter(str.isdigit, day_entered.get())))  # day from input, cleaned from non-digit characters
+    day = int(
+        "0" + "".join(filter(str.isdigit, day_entered.get())))  # day from input, cleaned from non-digit characters
     return day
 
 
